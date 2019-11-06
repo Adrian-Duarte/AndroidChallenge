@@ -2,5 +2,5 @@
     <string name="app_name">AndroidChallenge</string>
 
     <string name="general_search">Buscar</string>
-
+    <string name="general_error">Ha ocurrido un inconveniente, favor intente nuevamente más tarde</string>
 </resources>

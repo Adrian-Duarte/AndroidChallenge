@@ -9,6 +9,6 @@ import retrofit2.http.Query;
 public interface APIService {
 
     @GET("search")
-    Observable<TrackResponse> searchTracks(@Query("term") String query, @Query("mediaType") String mediaType, @Query("limit") int limit);
+    Observable<TrackResponse> searchTracks(@Query("term") String query, @Query("entity") String entity, @Query("limit") int limit);
 
 }
