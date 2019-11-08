@@ -82,7 +82,12 @@ public class ListTrackActivity extends AppCompatActivity implements ListTrackCon
     @Override
     public void showTracks(List<Track> tracks) {
         TrackRowPresenter presenter = new TrackRowPresenter(tracks);
-        TrackRecyclerAdapter adapter = new TrackRecyclerAdapter(presenter);
+        TrackRecyclerAdapter adapter = new TrackRecyclerAdapter(presenter, new TrackRecyclerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(Track track) {
+                startActivity(DetailCollectionActivity.getStartIntent(ListTrackActivity.this, track));
+            }
+        });
         rvTracks.setLayoutManager(new LinearLayoutManager(this));
         rvTracks.setAdapter(adapter);
     }

@@ -1,45 +1,48 @@
 package com.global.logic.android.challenge.presenters;
 
-import com.global.logic.android.challenge.interfaces.ListTrackContract;
+import com.global.logic.android.challenge.interfaces.DetailCollectionContract;
+import com.global.logic.android.challenge.models.Track;
 import com.global.logic.android.challenge.models.TrackResponse;
 import com.global.logic.android.challenge.network.APIService;
 import com.global.logic.android.challenge.network.RetrofitClient;
+
+import java.util.List;
 
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
-public class ListTrackPresenter implements ListTrackContract.Presenter {
+public class DetailCollectionPresenter implements DetailCollectionContract.Presenter {
 
     // Constants
-    private static final String TRACK_ENTITY = "song";
-    private static final int TRACK_LIMIT = 20;
+    private static final String LOOKUP_ENTITY = "song";
 
     // Attributes
     private APIService apiService;
-    private ListTrackContract.View view;
+    private DetailCollectionContract.View view;
 
     // Constructors
-    public ListTrackPresenter(ListTrackContract.View view) {
+    public DetailCollectionPresenter(DetailCollectionContract.View view) {
         apiService = RetrofitClient.getInstance().create(APIService.class);
         this.view = view;
     }
 
     @Override
-    public void search(String query) {
+    public void lookup(int id) {
         apiService
-            .search(query, TRACK_ENTITY, TRACK_LIMIT)
+            .lookup(id, LOOKUP_ENTITY)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(new Observer<TrackResponse>() {
                 @Override
                 public void onSubscribe(Disposable d) {
-
                 }
                 @Override
                 public void onNext(TrackResponse value) {
-                    view.showTracks(value.getTracks());
+                    List<Track> tracks = value.getTracks();
+                    tracks.remove(0);
+                    view.showTracks(tracks);
                 }
                 @Override
                 public void onError(Throwable e) {
@@ -51,5 +54,4 @@ public class ListTrackPresenter implements ListTrackContract.Presenter {
             })
         ;
     }
-
 }

@@ -27,8 +27,8 @@ public class TrackRowPresenter {
         return tracks.size();
     }
 
-    // Private methods
-    private Track getCurrentTrack(Integer position) {
+    // Public methods
+    public Track getCurrentTrack(Integer position) {
         return tracks.get(position);
     }
 
